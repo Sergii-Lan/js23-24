@@ -22,5 +22,25 @@ function Controller(model, view) {
     model.removeItem(item);
     view.renderList(model.data);
   }
+  function editItem() {
+    var item = $(this).attr('data-b');
+    var index = $('.dispaly-item').index(this);
+    var editItem = $('.dispaly-item').eq(index);
+    var editItemInput = $('.edit').eq(index);
+    var newItem = editItem.html();
 
+    editItemInput.val(editItem.html());
+    editItem.hide();
+    editItemInput.show();
+    editItemInput.select();
+
+    editItemInput.focusout(function(){
+      editItemInput.hide();
+      editItem.html(editItemInput.val());
+      editItem.show();
+      newItem = editItem.html();
+      model.editItem(item, newItem);
+      view.renderList(model.data);
+    });
+  }
 }
